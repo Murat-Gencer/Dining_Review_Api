@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 public class DiningReview {
-    enum status{
+    public enum Status{
         PENDING,
         ACCEPTED,
         REJECTED
@@ -32,6 +32,6 @@ public class DiningReview {
     private int scoreOfDairy;
     private String commentary;
 
-    private status state;
+    private Status state;
 
 }
