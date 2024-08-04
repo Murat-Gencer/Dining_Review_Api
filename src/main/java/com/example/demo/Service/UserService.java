@@ -12,23 +12,23 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User createUser(String displayName , String city , String state , String zipcode , boolean peanutAllergy, boolean eggAllergy,boolean dairyAllergy){
-        if (userRepository.existsByDisplayName(displayName)) {
+    public User createUser(User user){
+        if (userRepository.existsByDisplayName(user.getDisplayName())) {
             throw new IllegalArgumentException("Display name already exists");
         }
-        User user = new User(null, displayName, city, state, zipcode, peanutAllergy, eggAllergy, dairyAllergy);
+        
         return userRepository.save(user);
     }
 
-    public User updateUser(Long userId,String city , String state , String zipcode , boolean peanutAllergy, boolean eggAllergy,boolean dairyAllergy){
-        User user =userRepository.findById(userId).orElseThrow(()-> new IllegalArgumentException("User not found"));
-        user.setCity(city);
-        user.setState(state);
-        user.setZipcode(zipcode);
-        user.setInterestedInDairyAllergy(dairyAllergy);
-        user.setInterestedInEggAllergy(eggAllergy);
-        user.setInterestedInPeanutAllergy(peanutAllergy);
-        return userRepository.save(user);
+    public User updateUser(String displayName , User user){
+        User existingUser =userRepository.findByDisplayName(displayName).orElseThrow(()-> new IllegalArgumentException("User not found"));
+        existingUser.setCity(user.getCity());
+        existingUser.setState(user.getState());
+        existingUser.setZipcode(user.getZipcode());
+        existingUser.setInterestedInDairyAllergy(user.isInterestedInDairyAllergy());
+        existingUser.setInterestedInEggAllergy(user.isInterestedInEggAllergy());
+        existingUser.setInterestedInPeanutAllergy(user.isInterestedInPeanutAllergy());
+        return userRepository.save(existingUser);
     }
 
 
